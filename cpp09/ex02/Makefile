@@ -6,12 +6,10 @@ SRC_DIR		= src/
 OBJ_DIR		= obj/
 
 INCLUDES	= -I ./inc
-HEADERS		= inc/PmergeMe.hpp \
-				inc/print.hpp
+HEADERS		= inc/PmergeMe.hpp
 
 SRCS		= src/main.cpp \
-				src/PmergeMe.cpp \
-				src/print.cpp
+				src/PmergeMe.cpp
 
 OBJS		= $(patsubst $(SRC_DIR)%.cpp,$(OBJ_DIR)%.o,$(SRCS))
 

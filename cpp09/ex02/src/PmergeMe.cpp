@@ -1,25 +1,39 @@
 #include "PmergeMe.hpp"
-// #include "print.hpp"
 
-namespace parsing_utils_vector {
-	void				checkDoubles( std::vector<int>& arr );
-	std::vector<int>	parseSingle( std::string input );
-	std::vector<int>	parseMultiple( char** input );
+namespace parsing_utils {
+	template <typename T>
+	void	checkDoubles( T& arr );
+
+	template <typename T>
+	T		parseSingle( std::string input );
+
+	template <typename T>
+	T		parseMultiple( char** input );
 }
 
 namespace algo_utils {
-	void				fillMainchainNewKeys( std::vector<int>& main_chain, std::vector<int>& new_keys, std::unordered_map<int, int>& new_pairs );
-	size_t				relatedKey( std::vector<int>& main_chain, int value, std::unordered_map<int, int>& new_pairs );
-	size_t				binaryInsertPos( std::vector<int>& main_chain, int value, std::unordered_map<int, int>& new_pairs, size_t& comparisons );
-	size_t				getJacobsthalSequenceRounds( size_t b_values_to_insert );
-	size_t				get_current( size_t b_values_to_insert, size_t k );
-	std::vector<int>	fillFullBChain( std::vector<int>& main_chain, std::unordered_map<int, int>& new_pairs, std::optional<int> remainder );
-	void				fillMainchain( std::vector<int>& main_chain, std::vector<int>& new_keys, std::unordered_map<int, int>& new_pairs, std::optional<int> remainder, size_t& comparisons );
-	std::vector<int>	recursiveSplitting( std::vector<int>& keys, size_t& comparisons);
+	template <typename T>
+	size_t	relatedKey( T& main_chain, int value, std::unordered_map<int, int>& new_pairs );
+
+	template <typename T>
+	size_t	binaryInsertPos( T& main_chain, int value, std::unordered_map<int, int>& new_pairs, size_t& comparisons );
+
+	size_t	getJacobsthalSequenceRounds( size_t b_values_to_insert );
+	size_t	get_current( size_t b_values_to_insert, size_t k );
+
+	template <typename T>
+	T		fillFullBChain( T& main_chain, std::unordered_map<int, int>& new_pairs, std::optional<int> remainder );
+
+	template <typename T>
+	void	fillMainchain( T& main_chain, std::unordered_map<int, int>& new_pairs, std::optional<int> remainder, size_t& comparisons );
+
+	template <typename T>
+	T		recursiveSplitting( T& keys, size_t& comparisons);
 }
 
-namespace parsing_utils_vector {
-	void	checkDoubles( std::vector<int>& arr ) {
+namespace parsing_utils {
+	template <typename T>
+	void	checkDoubles( T& arr ) {
 		std::unordered_set<int>	present;
 		for (int nb : arr)
 		{
@@ -28,10 +42,11 @@ namespace parsing_utils_vector {
 		}
 	}
 
-	std::vector<int>	parseSingle( std::string input ) {
+	template <typename T>
+	T	parseSingle( std::string input ) {
 		std::istringstream	iss(input);
 		std::string			token;
-		std::vector<int>	arr;
+		T	arr;
 		std::regex valid("^\\d+(, \\d+)*$");
 
 		if (!std::regex_match(input, valid))
@@ -49,9 +64,10 @@ namespace parsing_utils_vector {
 		return arr;
 	}
 
-	std::vector<int>	parseMultiple( char** input ) {
+	template <typename T>
+	T	parseMultiple( char** input ) {
 		size_t				i = 1;
-		std::vector<int>	arr;
+		T	arr;
 		while (input[i])
 		{
 			std::string token(input[i]);
@@ -68,19 +84,9 @@ namespace parsing_utils_vector {
 }
 
 namespace algo_utils {
-	void	fillMainchainNewKeys( std::vector<int>& main_chain, std::vector<int>& new_keys, std::unordered_map<int, int>& new_pairs ) {
 
-		if (main_chain.size() == 0)
-		{
-			main_chain.insert(main_chain.begin(), new_pairs[new_keys[0]]);
-			for (size_t i = 0; i < new_keys.size(); ++i)
-				main_chain.push_back(new_keys[i]);
-		}
-		else
-			main_chain.insert(main_chain.begin(), new_pairs[main_chain[0]]);
-	}
-
-	size_t	relatedKey( std::vector<int>& main_chain, int value, std::unordered_map<int, int>& new_pairs ) {
+	template <typename T>
+	size_t	relatedKey( T& main_chain, int value, std::unordered_map<int, int>& new_pairs ) {
 		for (auto& pair : new_pairs)
 		{
 			if (pair.second == value)
@@ -94,7 +100,9 @@ namespace algo_utils {
 		}
 		return main_chain.size();
 	}
-	size_t	binaryInsertPos( std::vector<int>& main_chain, int value, std::unordered_map<int, int>& new_pairs, size_t& comparisons ) {
+
+	template <typename T>
+	size_t	binaryInsertPos( T& main_chain, int value, std::unordered_map<int, int>& new_pairs, size_t& comparisons ) {
 		size_t left = 0;
 		size_t right = relatedKey(main_chain, value, new_pairs);
 		while (left < right)
@@ -127,23 +135,24 @@ namespace algo_utils {
 		return t_curr;
 	}
 
-	std::vector<int>	fillFullBChain( std::vector<int>& main_chain, std::unordered_map<int, int>& new_pairs, std::optional<int> remainder ) {
+	template <typename T>
+	T	fillFullBChain( T& main_chain, std::unordered_map<int, int>& new_pairs, std::optional<int> remainder ) {
 		size_t k = 2;
-		std::vector<int> full_b_chain;
-		size_t b_values_to_insert;
+		T full_b_chain;
+		size_t amount_b_values_to_insert;
 		if (remainder.has_value())
-			b_values_to_insert = main_chain.size() - 2 + 1;
+			amount_b_values_to_insert = main_chain.size() - 2 + 1;
 		else
-			b_values_to_insert = main_chain.size() - 2;
-		size_t jacobsthal_sequence_rounds = getJacobsthalSequenceRounds(b_values_to_insert);
+			amount_b_values_to_insert = main_chain.size() - 2;
+		size_t jacobsthal_sequence_rounds = getJacobsthalSequenceRounds(amount_b_values_to_insert);
 		for (size_t i = 0; i < jacobsthal_sequence_rounds; ++i, ++k)
 		{
 			size_t t_prev = (pow(2, k) + pow(-1, k - 1)) / 3;
-			size_t t_curr = get_current(b_values_to_insert, k );
+			size_t t_curr = get_current(amount_b_values_to_insert, k );
 			size_t new_additions = t_curr - t_prev;
 			for (size_t j = 0; j < new_additions; ++j)
 			{
-				if (j == 0 && (i == jacobsthal_sequence_rounds - 1) && remainder.has_value()) //identify leftover
+				if (j == 0 && (i == jacobsthal_sequence_rounds - 1) && remainder.has_value())
 				{
 					full_b_chain.push_back(remainder.value());
 					continue ;
@@ -158,9 +167,10 @@ namespace algo_utils {
 		return full_b_chain;
 	}
 
-	void	fillMainchain( std::vector<int>& main_chain, std::vector<int>& new_keys, std::unordered_map<int, int>& new_pairs, std::optional<int> remainder, size_t& comparisons ) {
-		fillMainchainNewKeys(main_chain, new_keys, new_pairs);
-		std::vector<int>	full_b_chain = fillFullBChain(main_chain, new_pairs, remainder);
+	template <typename T>
+	void	fillMainchain( T& main_chain, std::unordered_map<int, int>& new_pairs, std::optional<int> remainder, size_t& comparisons ) {
+		main_chain.insert(main_chain.begin(), new_pairs[main_chain[0]]);
+		T	full_b_chain = fillFullBChain(main_chain, new_pairs, remainder);
 		for (size_t i = 0; i < full_b_chain.size(); ++i)
 		{
 			size_t value_to_insert = full_b_chain[i];
@@ -169,13 +179,18 @@ namespace algo_utils {
 		}
 	}
 
-	std::vector<int>	recursiveSplitting( std::vector<int>& keys, size_t& comparisons) {
+	template <typename T>
+	T	recursiveSplitting( T& keys, size_t& comparisons) {
 		std::unordered_map<int, int> new_pairs;
-		std::vector<int> new_keys;
+		T	new_keys;
+		T	main_chain;
 		std::optional<int> remainder = std::nullopt;
 
 		if (keys.size() < 2)
-			return {};
+		{
+			main_chain.push_back(keys[0]);
+			return main_chain;
+		}
 		if (keys.size() % 2 != 0)
 		{
 			remainder =	keys.back();
@@ -195,63 +210,73 @@ namespace algo_utils {
 			}
 			comparisons++;
 		}
-		std::vector<int>	main_chain;
+
 		main_chain = recursiveSplitting(new_keys, comparisons);
-		fillMainchain(main_chain, new_keys, new_pairs, remainder, comparisons);
-		return (main_chain);
+		fillMainchain(main_chain, new_pairs, remainder, comparisons);
+		return main_chain;
 	}
 }
 
+namespace main_utils {
+	size_t calcMaxComparisons(size_t size) {
+		size_t sum = 0;
+		for (size_t k = 1; k <= size; ++k) {
+			double val = (3.0 / 4.0) * k;
+			sum += static_cast<size_t>(std::ceil(std::log2(val)));
+		}
+		return sum;
+	}
+}
 
-PmergeMe::PmergeMe( std::vector<int>& arr ) : comparisons(0) {
+template <typename T>
+PmergeMe<T>::PmergeMe( T arr ) {
+	comparisons = 0;
 	this->arr = std::move(arr);
 };
 
-void	PmergeMe::sort( void ) {
-	std::vector<int> sorted = algo_utils::recursiveSplitting(this->arr, this->comparisons);
+template <typename T>
+void	PmergeMe<T>::sort( void ) {
+	T sorted = algo_utils::recursiveSplitting(this->arr, this->comparisons);
 	this->arr = std::move(sorted);
+	this->verifySorted();
 }
 
-std::vector<int>	PmergeMe::parse( int ac, char **av ) {
+template <typename T>
+T	PmergeMe<T>::parse( int ac, char **av ) {
 	if (ac < 2)
-	{
-		std::cout << "Error" << std::endl;
-		exit(1);
-	}
-	try {
-		if (ac == 2)
-			return (parsing_utils_vector::parseSingle(av[1]));
-		else
-			return (parsing_utils_vector::parseMultiple(av));
-	} catch (std::exception& e) {
-		std::cout << "Error" << std::endl;
-		exit(1);
-	}
+		throw std::runtime_error("Error");
+	if (ac == 2)
+		return (parsing_utils::parseSingle<T>(av[1]));
+	else
+		return (parsing_utils::parseMultiple<T>(av));
 }
 
-void	PmergeMe::print( std::string msg ) const {
+template <typename T>
+void	PmergeMe<T>::print( std::string msg ) const {
 	if (msg == "Before")
 		std::cout << msg << ":";
 	else
 		std::cout << msg << ": ";
-	if (getData().size() > 5)
-	{
-		for (int i = 0; i < 4; ++i)
-			std::cout << " " << getData()[i];
-		std::cout << " [...]" << std::endl;
-	}
-	if (getData().size() <= 5)
-	{
-		for (int nb : getData())
-			std::cout << " " << nb;
-		std::cout << std::endl;
-	}
+	for (int nb : getData())
+		std::cout << " " << nb;
+	std::cout << std::endl;
 }
 
-const	std::vector<int>&	PmergeMe::getData() const {
+template <typename T>
+void	PmergeMe<T>::verifySorted( void ) const {
+	if(!std::is_sorted(arr.begin(), arr.end()))
+		throw std::runtime_error("Sorting error");
+}
+
+template <typename T>
+const	T&	PmergeMe<T>::getData() const {
 	return arr;
 }
 
-size_t	PmergeMe::getComparisons( void ) const {
+template <typename T>
+size_t	PmergeMe<T>::getComparisons( void ) const {
 	return comparisons;
 }
+
+template class PmergeMe<std::vector<int>>;
+template class PmergeMe<std::deque<int>>;
