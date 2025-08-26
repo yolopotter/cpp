@@ -104,26 +104,32 @@ int	main(int ac, char **av)
 		std::cout << "Error: could not open the file for reading" << std::endl;
 		return 1;
 	}
+	
+	try {
+		BitcoinExchange database;
+		if (database.getDatabase().size() == 0)
+			throw std::runtime_error("Error: database empty");
+		std::string line;
 
-	BitcoinExchange database;
-	std::string line;
-
-	while (1)
-	{
-		if(!std::getline(infile, line))
-			break ;
-		if (line == "date | value")
-			continue ;
-		try {
-			parseLine(line, database);
-			findKey(line, database);
+		while (1)
+		{
+			if(!std::getline(infile, line))
+				break ;
+			if (line == "date | value")
+				continue ;
+			try {
+				parseLine(line, database);
+				findKey(line, database);
+			}
+			catch (std::runtime_error& e) {
+				std::cout << e.what() << std::endl;
+			}
+			catch (std::invalid_argument& e) {
+				std::cout << e.what() << std::endl;
+			}
 		}
-		catch (std::runtime_error& e) {
-			std::cout << e.what() << std::endl;
-		}
-		catch (std::invalid_argument& e) {
-			std::cout << e.what() << std::endl;
-		}
+	} catch (std::runtime_error& e) {
+		std::cout << e.what() << std::endl;
 	}
 	return 0;
 }
