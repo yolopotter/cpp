@@ -6,11 +6,12 @@ SRC_DIR		= src/
 OBJ_DIR		= obj/
 
 INCLUDES	= -I ./inc
-HEADERS		= inc/RPN.hpp
+HEADERS		= inc/RPN.hpp \
+				inc/unitTests.hpp
 
 SRCS		= src/main.cpp \
 				src/RPN.cpp \
-				src/unit_tests_overflow.cpp
+				src/unitTests.cpp
 
 OBJS		= $(patsubst $(SRC_DIR)%.cpp,$(OBJ_DIR)%.o,$(SRCS))
 
