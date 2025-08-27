@@ -47,6 +47,7 @@ def parse_comparisons(output):
 	return comparisons_vec, comparisons_deq, max_comp
 
 def test_comparisons_amount():
+	print(f"Test comparisons amount:")
 	test_cases = []
 
 	for size in range(1, 101):
@@ -62,7 +63,7 @@ def test_comparisons_amount():
 			# print(f"Vector {comparisons_vec}, deque {comparisons_deq}, max {max_comp}") # uncomment to show comaprisons amount
 			assert comparisons_vec <= max_comp, f"Vector comparisons {comparisons_vec} is larger than F(n) = {max_comp} for input: {cmd}"
 			assert comparisons_deq <= max_comp, f"Deque comparisons {comparisons_deq} is larger than F(n) = {max_comp} for input: {cmd}"
-
+	print(f"Comparisons amount is always under max allowed, test passed.")
 
 def main():
 	test_cases_errors = [
