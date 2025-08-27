@@ -104,7 +104,7 @@ int	main(int ac, char **av)
 		std::cout << "Error: could not open the file for reading" << std::endl;
 		return 1;
 	}
-	
+
 	try {
 		BitcoinExchange database;
 		if (database.getDatabase().size() == 0)

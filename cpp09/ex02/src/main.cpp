@@ -37,9 +37,9 @@ int	main(int ac, char **av)
 		<< duration_deque.count() << " ms" << std::endl;
 
 		// size_t max_comparisons = main_utils::calcMaxComparisons(sorter_vec.getData().size());
-		// std::cout << "Comparisons (vector): " << sorter_vec.getComparisons() << std::endl; //uncomment to see amount of comparisons
-		// std::cout << "Comparisons (deque): " << sorter_deq.getComparisons() << std::endl; //uncomment to see amount of comparisons
-		// std::cout << "Max comparisons F(n): " << max_comparisons << std::endl; //uncomment to see amount of comparisons
+		// std::cout << "Comparisons (vector): " << sorter_vec.getComparisons() << std::endl;		//uncomment to see amount of comparisons
+		// std::cout << "Comparisons (deque): " << sorter_deq.getComparisons() << std::endl;		//uncomment to see amount of comparisons
+		// std::cout << "Max comparisons F(n): " << max_comparisons << std::endl;					//uncomment to see amount of comparisons
 
 	} catch (std::exception& e) {
 		std::cerr << "Error: " << e.what() << std::endl;

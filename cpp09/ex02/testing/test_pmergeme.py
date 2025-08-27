@@ -59,9 +59,9 @@ def test_comparisons_amount():
 
 		comparisons_vec, comparisons_deq, max_comp = parse_comparisons(result.stdout)
 		if all(x is not None for x in [comparisons_vec, comparisons_deq, max_comp]):
-			# print(f"Vector {comparisons_vec}, deque {comparisons_deq}, max {max_comp}")
-			assert comparisons_vec <= max_comp, f"Vector comparisons {comparisons_vec} exceed maximum {max_comp} for input: {cmd}"
-			assert comparisons_deq <= max_comp, f"Deque comparisons {comparisons_deq} exceed maximum {max_comp} for input: {cmd}"
+			# print(f"Vector {comparisons_vec}, deque {comparisons_deq}, max {max_comp}") # uncomment to show comaprisons amount
+			assert comparisons_vec <= max_comp, f"Vector comparisons {comparisons_vec} is larger than F(n) = {max_comp} for input: {cmd}"
+			assert comparisons_deq <= max_comp, f"Deque comparisons {comparisons_deq} is larger than F(n) = {max_comp} for input: {cmd}"
 
 
 def main():

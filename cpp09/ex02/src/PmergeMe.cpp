@@ -1,6 +1,7 @@
 #include "PmergeMe.hpp"
 
 namespace parsing_utils {
+
 	template <typename T>
 	void	checkDoubles( T& arr );
 
@@ -12,6 +13,7 @@ namespace parsing_utils {
 }
 
 namespace algo_utils {
+
 	template <typename T>
 	size_t	relatedKey( T& main_chain, int value, std::unordered_map<int, int>& new_pairs );
 
@@ -32,6 +34,7 @@ namespace algo_utils {
 }
 
 namespace parsing_utils {
+
 	template <typename T>
 	void	checkDoubles( T& arr ) {
 		std::unordered_set<int>	present;
@@ -46,7 +49,8 @@ namespace parsing_utils {
 	T	parseSingle( std::string input ) {
 		std::istringstream	iss(input);
 		std::string			token;
-		T	arr;
+		T					arr;
+
 		std::regex valid("^\\d+(, \\d+)*$");
 
 		if (!std::regex_match(input, valid))
@@ -66,8 +70,9 @@ namespace parsing_utils {
 
 	template <typename T>
 	T	parseMultiple( char** input ) {
-		size_t				i = 1;
-		T	arr;
+		size_t	i = 1;
+		T		arr;
+
 		while (input[i])
 		{
 			std::string token(input[i]);
@@ -218,6 +223,7 @@ namespace algo_utils {
 }
 
 namespace main_utils {
+	
 	size_t calcMaxComparisons(size_t size) {
 		size_t sum = 0;
 		for (size_t k = 1; k <= size; ++k) {

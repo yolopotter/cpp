@@ -8,6 +8,7 @@ test_cases=(
 	"2"								# 2
 	""								# Error
 	"-1a 2 *"						# Error
+	"0.4 2 *"						# Error
 	"-1 a 2 *"						# Error
 	"-10 2 *"						# Error
 	"10 2 *"						# Error
@@ -17,8 +18,10 @@ test_cases=(
 	"1 +"							# Error
 	"+ 1"							# Error
 	"1 1 1 +"						# Error
+	"1 4294967294 +"			# Error
 	"9 9 9 * * 9 9 * * 9 * 9 * 9 * 6 * 2 * 2 * 2 *"	# 2066242608
 	"9 9 9 * * 9 9 * * 9 * 9 * 9 * 6 * 2 * 2 * 3 *"	# overflow
+	"9 9 9 * * 9 9 * * 9 * 9 * 9 * 6 * 2 * 2 * 3 * 9 /"	# overflow
 )
 
 for expr in "${test_cases[@]}"; do
