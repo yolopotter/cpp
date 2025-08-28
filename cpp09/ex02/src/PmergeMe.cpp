@@ -3,39 +3,6 @@
 namespace parsing_utils {
 
 	template <typename T>
-	void	checkDoubles( T& arr );
-
-	template <typename T>
-	T		parseSingle( std::string input );
-
-	template <typename T>
-	T		parseMultiple( char** input );
-}
-
-namespace algo_utils {
-
-	template <typename T>
-	size_t	relatedKey( T& main_chain, int value, std::unordered_map<int, int>& new_pairs );
-
-	template <typename T>
-	size_t	binaryInsertPos( T& main_chain, int value, std::unordered_map<int, int>& new_pairs, size_t& comparisons );
-
-	size_t	getJacobsthalSequenceRounds( size_t b_values_to_insert );
-	size_t	get_current( size_t b_values_to_insert, size_t k );
-
-	template <typename T>
-	T		fillFullBChain( T& main_chain, std::unordered_map<int, int>& new_pairs, std::optional<int> remainder );
-
-	template <typename T>
-	void	fillMainchain( T& main_chain, std::unordered_map<int, int>& new_pairs, std::optional<int> remainder, size_t& comparisons );
-
-	template <typename T>
-	T		recursiveSplitting( T& keys, size_t& comparisons);
-}
-
-namespace parsing_utils {
-
-	template <typename T>
 	void	checkDoubles( T& arr ) {
 		std::unordered_set<int>	present;
 		for (int nb : arr)
@@ -223,7 +190,7 @@ namespace algo_utils {
 }
 
 namespace main_utils {
-	
+
 	size_t calcMaxComparisons(size_t size) {
 		size_t sum = 0;
 		for (size_t k = 1; k <= size; ++k) {
